@@ -2,6 +2,8 @@
 #include <conio.h>
 #include <iomanip>
 #include <locale>
+#include <math.h>
+#include "Fraction.h"
 
 using namespace std;
 
@@ -12,14 +14,19 @@ int main()
 	int n;
 	cin >> n;
 	cout << "Введите матрицу: " << endl;
-	double** m = new double* [n], ** l = new double* [n], ** u = new double* [n], ** p = new double* [n];
+	Fraction** m = new Fraction * [n],
+		** l = new Fraction * [n],
+		** u = new Fraction * [n],
+		** p = new Fraction * [n];
+	int tmp;
 	for (int i = 0; i < n; ++i) {
-		m[i] = new double[n];
-		l[i] = new double[n];
-		u[i] = new double[n];
-		p[i] = new double[n];
+		m[i] = new Fraction[n];
+		l[i] = new Fraction[n];
+		u[i] = new Fraction[n];
+		p[i] = new Fraction[n];
 		for (int j = 0; j < n; ++j) {
-			cin >> m[i][j];
+			cin >> tmp;
+			m[i][j] = Fraction(tmp, 1);
 			u[i][j] = m[i][j];
 			if (i == j) l[i][j] = 1;
 			else if (j > i) l[i][j] = 0;
@@ -40,21 +47,21 @@ int main()
 	cout << "Исходная матрица:" << endl;
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < n; ++j)
-			cout << setw(10) << m[i][j] << ' ';
+			cout << setw(12) << m[i][j] << ' ';
 		cout << endl;
 	}
 
 	cout << "Матрица U:" << endl;
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < n; ++j)
-			cout << setw(10) << u[i][j] << ' ';
+			cout << setw(12) << u[i][j] << ' ';
 		cout << endl;
 	}
 
 	cout << "Матрица L:" << endl;
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < n; ++j)
-			cout << setw(10) << l[i][j] << ' ';
+			cout << setw(12) << l[i][j] << ' ';
 		cout << endl;
 	}
 
@@ -69,7 +76,7 @@ int main()
 	cout << "Проверка:" << endl;
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < n; ++j)
-			cout << setw(10) << p[i][j] << ' ';
+			cout << setw(12) << p[i][j] << ' ';
 		cout << endl;
 	}
 }
