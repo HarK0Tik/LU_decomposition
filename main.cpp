@@ -1,11 +1,33 @@
 #include <iostream>
-#include <conio.h>
 #include <iomanip>
 #include <locale>
-#include <math.h>
+#include <exception>
 #include "Fraction.h"
 
 using namespace std;
+
+template <class T>
+void lu_decompisition(T** m, T** l, T** u, int n)
+{
+	for (int i = 0; i < n; ++i)
+	{
+		for (int j = 0; j < n; ++j)
+		{
+			u[i][j] = m[i][j];
+			if (i == j) l[i][j] = 1;
+			else if (j > i) l[i][j] = 0;
+		}
+	}
+
+	for (int i = 1; i < n; ++i) {
+		if (u[i - 1][i - 1] == 0) throw exception("Деление на ноль, LU разложения не существует!");
+		for (int j = i; j < n; ++j) {
+			l[j][i - 1] = u[j][i - 1] / u[i - 1][i - 1];
+			for (int k = 0; k < n; ++k)
+				u[j][k] -= u[i - 1][k] * l[j][i - 1];
+		}
+	}
+}
 
 int main()
 {
@@ -27,21 +49,18 @@ int main()
 		for (int j = 0; j < n; ++j) {
 			cin >> tmp;
 			m[i][j] = Fraction(tmp, 1);
-			u[i][j] = m[i][j];
-			if (i == j) l[i][j] = 1;
-			else if (j > i) l[i][j] = 0;
 		}
 	}
 
-	for (int i = 1; i < n; ++i) {
-		for (int j = i; j < n; ++j)
-		{
-			l[j][i - 1] = u[j][i - 1] / u[i - 1][i - 1];
-			for (int k = 0; k < n; ++k) {
-
-				u[j][k] -= u[i - 1][k] * l[j][i - 1];
-			}
-		}
+	try {
+		lu_decompisition(m, l, u, n);
+	}
+	catch (exception& e) {
+		cout << e.what() << endl;
+		cout << "Нажмите enter, чтобы выйти...";
+		cin.get();
+		cin.get();
+		return 0;
 	}
 
 	cout << "Исходная матрица:" << endl;

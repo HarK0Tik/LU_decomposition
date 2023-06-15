@@ -1,9 +1,7 @@
 #include <iostream>
 #include <iomanip>
-#include <math.h>
 #include <string>
 #include <sstream>
-#include "Fraction.h"
 #include "Fraction.h"
 
 int gcd(int a, int b)
@@ -82,6 +80,12 @@ Fraction& Fraction::operator/=(const Fraction& f) {
 	*this = *this / f;
 	return *this;
 }
+
+bool operator==(const Fraction& a, const Fraction& b) { return a.numerator * b.denominator == b.numerator * a.denominator; }
+
+bool operator==(const Fraction& a, const int& b) { return a == Fraction(b, 1); }
+
+bool operator==(const int& a, const Fraction& b) { return Fraction(a, 1) == b; }
 
 Fraction operator+(const Fraction& a, const Fraction& b) {
 	int numerator = a.numerator * b.denominator + b.numerator * b.denominator;
